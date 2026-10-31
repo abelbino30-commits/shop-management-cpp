@@ -382,6 +382,35 @@ class _CashierScreenState extends State<CashierScreen> {
     });
   }
 
+  void _deleteProduct(Product p, StateSetter parentState) {
+    showDialog(
+      context: context,
+      builder: (confirmCtx) => AlertDialog(
+        backgroundColor: const Color(0xFF101726),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: const BorderSide(color: Color(0xFF263553))),
+        title: const Text("Delete Product", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        content: Text("Are you sure you want to permanently delete '${p.name}' (${p.code}) from inventory?"),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(confirmCtx), child: const Text("Cancel")),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            onPressed: () {
+              Navigator.pop(confirmCtx);
+              setState(() {
+                _products.removeWhere((item) => item.id == p.id);
+                _cart.removeWhere((item) => item.product.id == p.id);
+                _cashTendered = _grandTotal;
+              });
+              parentState(() {});
+              _showToast("${p.name} deleted from stock", Colors.redAccent);
+            },
+            child: const Text("Delete", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _checkout() {
     if (_cart.isEmpty) return;
 
@@ -438,7 +467,7 @@ class _CashierScreenState extends State<CashierScreen> {
                 child: const Icon(Icons.inventory_2_rounded, color: Color(0xFF38BDF8), size: 22),
               ),
               const SizedBox(width: 12),
-              const Text("Inventory & Stock Restock", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Text("Inventory & Stock Management", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const Spacer(),
               ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -459,7 +488,7 @@ class _CashierScreenState extends State<CashierScreen> {
             ],
           ),
           content: SizedBox(
-            width: 720,
+            width: 760,
             height: 480,
             child: ListView.separated(
               itemCount: _products.length,
@@ -530,6 +559,13 @@ class _CashierScreenState extends State<CashierScreen> {
                         setState(() => p.stock += 25);
                         setStockModalState(() {});
                       }),
+                      const SizedBox(width: 10),
+                      // Delete Product Action
+                      IconButton(
+                        tooltip: "Delete Product",
+                        icon: const Icon(Icons.delete_outline, size: 20, color: Colors.redAccent),
+                        onPressed: () => _deleteProduct(p, setStockModalState),
+                      ),
                     ],
                   ),
                 );
@@ -578,7 +614,7 @@ class _CashierScreenState extends State<CashierScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: "Product Name (e.g. Samosa)")) ,
+                TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: "Product Name (e.g. Samosa)")),
                 TextField(controller: codeCtrl, decoration: const InputDecoration(labelText: "Barcode / SKU Code (e.g. SAMOSA-01)")),
                 TextField(controller: catCtrl, decoration: const InputDecoration(labelText: "Category (Bakery, Dairy, etc.)")),
                 Row(
@@ -979,7 +1015,6 @@ class _CashierScreenState extends State<CashierScreen> {
                 const SizedBox(width: 6),
                 _shortcutTag("F9 Print"),
                 const Spacer(),
-                // Low stock alert pill
                 if (_lowStockCount > 0)
                   InkWell(
                     onTap: _showStockManagementModal,
@@ -1001,7 +1036,6 @@ class _CashierScreenState extends State<CashierScreen> {
                     ),
                   ),
                 const SizedBox(width: 10),
-                // Stock Manager Trigger Button
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF131B2E),
