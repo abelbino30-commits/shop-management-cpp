@@ -34,3 +34,11 @@ git clone [https://github.com/abelbino30-commits/shop-manager.git](https://githu
 cd shop_manager
 flutter pub get
 flutter run -d chrome
+### 2. Display the Live Demo Link on the Main Page
+To put the link directly in GitHub's sidebar where visitors look first:
+
+1. Go to [https://github.com/abelbino30-commits/shop-manager](https://github.com/abelbino30-commits/shop-manager).
+2. Look at the right sidebar under **About** and click the small **Gear icon (⚙️)**.
+3. In the **Website** field, paste:
+   ```text
+   https://abelbino30-commits.github.io/shop-manager/
