@@ -1,16 +1,36 @@
-# shop_manager
+# Store POS Pro 🛒
 
-A new Flutter project.
+A lightweight, modern Point of Sale (POS) and inventory management web application built with Flutter.
 
-## Getting Started
+🔗 **Live Demo:** [Launch Store POS Pro](https://abelbino30-commits.github.io/shop-manager/)
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## ⚡ Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Billing & Register:** Rapid item entry, real-time GST (5%) calculations, and dynamic subtotaling.
+- **Dual Payment Workflows:** 
+  - **Cash:** Exact cash settlement and change due calculations.
+  - **UPI / QR:** Dynamic UPI QR generation for instant payments.
+- **Inventory Tracking:** Real-time stock counts, quick restock controls (`+5`, `+10`, `+25`), and low-stock alerts.
+- **Shelf-Life Management:** Automatic expiry countdowns and sales guards to prohibit expired items.
+- **Receipt Generation:** In-app formatted ASCII thermal bill modal.
+- **Keyboard Shortcuts:** Built for cashiers (`F1` Cash, `F2` UPI, `F3` Exact, `F4` Clear, `F5` Stock, `F9` Settle).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🛠️ Built With
+
+- **Flutter / Dart**
+- **Material 3 UI**
+- **GitHub Pages** (Hosting & Continuous Deployment)
+
+---
+
+## 🚀 Running Locally
+
+```bash
+git clone [https://github.com/abelbino30-commits/shop-manager.git](https://github.com/abelbino30-commits/shop-manager.git)
+cd shop_manager
+flutter pub get
+flutter run -d chrome
